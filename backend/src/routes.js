@@ -20,7 +20,7 @@ routes.post('/ongs', celebrate({
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().required(),
     email: Joi.string().required().email(),
-    whatsapp: Joi.number().min(10).max(11),
+    whatsapp: Joi.string().min(10).max(11),
     city: Joi.string().required(),
     uf: Joi.string().required().length(2)
   }),
@@ -52,7 +52,10 @@ routes.post('/incidents', celebrate({
 routes.delete('/incidents/:id', celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.number().required()
-  })
+  }),
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required()
+  }).unknown()
 }), IncidentController.delete);
 
 module.exports = routes;
